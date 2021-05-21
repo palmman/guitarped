@@ -22,9 +22,9 @@
 	            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Shop <span class="tf-ion-ios-arrow-down"></span></a>
 	            <ul class="dropdown-menu">
 					<li><a href="{% url 'store' %}">All Products</a></li>
-					<li><a href="blog-full-width.html">Cart</a></li>
+					<li><a href="{% url 'cart' %}">Cart</a></li>
 					<li><a href="blog-grid.html">Checkout</a></li>
-					<li><a href="blog-single.html">Dashboard</a></li>
+					<li><a href="{% url 'dashboard' %}">Dashboard</a></li>
 	            </ul>
 	          </li><!-- / Blog -->
 
@@ -32,8 +32,8 @@
 	          <li class="dropdown dropdown-slide">
 	            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Pages <span class="tf-ion-ios-arrow-down"></span></a>
 	            <ul class="dropdown-menu">
-	              <li><a href="typography.html">Login</a></li>
-	              <li><a href="buttons.html">Register</a></li>
+	              <li><a href="{% url 'login' %}">Login</a></li>
+	              <li><a href="{% url 'register' %}">Register</a></li>
 	              <li><a href="alerts.html">About Us</a></li>
 	            </ul>
 	          </li><!-- / Blog -->

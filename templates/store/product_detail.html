@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% load humanize %} 
+
 {% block content %}
 
 
@@ -97,7 +99,7 @@
 					<div class="product-category">
 						<span>Price:</span>
 						<ul>
-							<li><a>{{single_product.price}}</a></li>
+							<li><a>${{single_product.price|intcomma}}</a></li>
 						</ul>
 					</div>
 					<div class="product-category">
@@ -109,7 +111,7 @@
 					{% if single_product.stock <= 0 %}
 					<a class="btn btn-main mt-20">Out of Stock</a>
 					{% else %}
-					<a href="cart.html" class="btn btn-main mt-20">Add To Cart</a>
+					<a href="{% url 'addcart' single_product.id %}" class="btn btn-main mt-20">Add To Cart</a>
 					{% endif %}
 				</div>
 			</div>
@@ -221,112 +223,22 @@
 			</div>
 		</div>
 		<div class="row">
+			{% for products in products|slice:":4" %}
 			<div class="col-md-3">
 				<div class="product-item">
 					<div class="product-thumb">
-						<span class="bage">Sale</span>
-						<img class="img-responsive" src="images/shop/products/product-5.jpg" alt="product-img" />
+						<!---<span class="bage">Sale</span>--->
+						<img class="img-responsive" src="{{products.images.url}}" alt="product-img" />
 						<div class="preview-meta">
-							<ul>
-								<li>
-									<span  data-toggle="modal" data-target="#product-modal">
-										<i class="tf-ion-ios-search"></i>
-									</span>
-								</li>
-								<li>
-			                        <a href="#" ><i class="tf-ion-ios-heart"></i></a>
-								</li>
-								<li>
-									<a href=""><i class="tf-ion-android-cart"></i></a>
-								</li>
-							</ul>
                       	</div>
 					</div>
 					<div class="product-content">
-						<h4><a href="product-single.html">Reef Boardsport</a></h4>
-						<p class="price">$200</p>
+						<h4><a href="{{products.get_url}}">{{products.product_name}}</a></h4>
+						<p class="price">${{products.price}}</p>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3">
-				<div class="product-item">
-					<div class="product-thumb">
-						<img class="img-responsive" src="images/shop/products/product-1.jpg" alt="product-img" />
-						<div class="preview-meta">
-							<ul>
-								<li>
-									<span  data-toggle="modal" data-target="#product-modal">
-										<i class="tf-ion-ios-search-strong"></i>
-									</span>
-								</li>
-								<li>
-			                        <a href="#" ><i class="tf-ion-ios-heart"></i></a>
-								</li>
-								<li>
-									<a href=""><i class="tf-ion-android-cart"></i></a>
-								</li>
-							</ul>
-                      	</div>
-					</div>
-					<div class="product-content">
-						<h4><a href="product-single.html">Rainbow Shoes</a></h4>
-						<p class="price">$200</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="product-item">
-					<div class="product-thumb">
-						<img class="img-responsive" src="images/shop/products/product-2.jpg" alt="product-img" />
-						<div class="preview-meta">
-							<ul>
-								<li>
-									<span  data-toggle="modal" data-target="#product-modal">
-										<i class="tf-ion-ios-search"></i>
-									</span>
-								</li>
-								<li>
-			                        <a href="#" ><i class="tf-ion-ios-heart"></i></a>
-								</li>
-								<li>
-									<a href=""><i class="tf-ion-android-cart"></i></a>
-								</li>
-							</ul>
-                      	</div>
-					</div>
-					<div class="product-content">
-						<h4><a href="product-single.html">Strayhorn SP</a></h4>
-						<p class="price">$230</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="product-item">
-					<div class="product-thumb">
-						<img class="img-responsive" src="images/shop/products/product-3.jpg" alt="product-img" />
-						<div class="preview-meta">
-							<ul>
-								<li>
-									<span  data-toggle="modal" data-target="#product-modal">
-										<i class="tf-ion-ios-search"></i>
-									</span>
-								</li>
-								<li>
-			                        <a href="#" ><i class="tf-ion-ios-heart"></i></a>
-								</li>
-								<li>
-									<a href=""><i class="tf-ion-android-cart"></i></a>
-								</li>
-							</ul>
-                      	</div>
-					</div>
-					<div class="product-content">
-						<h4><a href="product-single.html">Bradley Mid</a></h4>
-						<p class="price">$200</p>
-					</div>
-				</div>
-			</div>
-			
+			{% endfor %}
 		</div>
 	</div>
 </section>

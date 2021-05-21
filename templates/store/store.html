@@ -2,114 +2,177 @@
 
 {% load static %}
 
+{% load humanize %}
+
 {% block content %}
 
-<section class="products section">
+{% if not products %}
+
+<section class="empty-cart page-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div class="block text-center">
+              <i class="tf-ion-ios-cart-outline"></i>
+                <h2 class="text-center">Not found your result, please try again.</h2>
+                <a href="{% url 'store' %}" class="btn btn-main mt-20">Return to shop</a>
+        </div>
+      </div>
+    </div>
+</section>
+
+{% else %}
+
+<section class="single-product">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3">
-				<div class="widget product-category">
-					<div class="panel-group commonAccordion" id="accordion" role="tablist" aria-multiselectable="true">
-					  	<div class="panel panel-default">
-						    <div class="panel-heading" role="tab" id="headingOne">
-						      	<h4 class="panel-title">
-						        	<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-										CATEGORIES
-						        	</a>
-						      	</h4>
-						    </div>
-					    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-							<div class="panel-body">
-								<ul>
-									<li><a href="{% url 'store' %}">All Products</a></li>
-								</ul>
-								{% for category in links %}
-								<ul>
-									<li><a href="{{category.get_url}}">{{category.category_name}}</a></li>
-								</ul>
-								{% endfor %}
+			<div class="col-md-6">
+				<ol class="breadcrumb">
+					<li><a href="{% url 'home' %}">Home</a></li>
+					<li><a href="">Shop</a></li>
+				</ol>
+			</div>
+			<div class="col-md-6">
+				{% if products.has_other_pages %}
+				<ol class="product-pagination text-right">
+					{% if products.has_previous %}
+					<li><a href="?page={{products.previous_page_number}}"><i class="tf-ion-ios-arrow-left"></i> Previous </a></li>
+					{% else %}
+					<li><a href="#"><i class="tf-ion-ios-arrow-left"></i> Previous </a></li>
+					{% endif %}
+					{% for i in products.paginator.page_range %}
+					{% if products.number == i %}
+						<li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+					{% else %}
+						<li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+					{% endif %}
+					{% endfor %}
+					{% if products.has_next %}
+					<li><a href="?page={{products.next_page_number}}">Next <i class="tf-ion-ios-arrow-right"></i></a></li>
+					{% else %}
+					<li><a href="#">Next <i class="tf-ion-ios-arrow-right"></i></a></li>
+					{% endif %}
+				</ol>
+				{% endif %}
+			</div>
+		</div>
+		<section class="products section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="widget product-category">
+							<div class="panel-group commonAccordion" id="accordion" role="tablist" aria-multiselectable="true">
+								  <div class="panel panel-default">
+									<div class="panel-heading" role="tab" id="headingOne">
+										  <h4 class="panel-title">
+											<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+												CATEGORIES
+											</a>
+										  </h4>
+									</div>
+								<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+									<div class="panel-body">
+										<ul>
+											<li><a href="{% url 'store' %}">All Products</a></li>
+										</ul>
+										{% for category in links %}
+										<ul>
+											<li><a href="{{category.get_url}}">{{category.category_name}}</a></li>
+										</ul>
+										{% endfor %}
+									</div>
+								</div>
 							</div>
-					    </div>
+						</div>
+							
+					</div>
+					</div>
+					<div class="col-md-9">
+						<div class="row">
+						{% for product in products %}		
+						<div class="col-md-4">
+							<div class="product-item">
+								<div class="product-thumb">
+									<!---<span class="bage">Sale</span>--->
+									<a href="{{product.get_url}}"><img class="img-responsive" src="{{product.images.url}}" alt="product-img" /></a>
+									<div class="preview-meta">
+										<ul>
+											<li>
+												<span  data-toggle="modal" data-target="#product-modal">
+													<i class="tf-ion-ios-search-strong"></i>
+												</span>
+											</li>
+											<li>
+												<a href="#" ><i class="tf-ion-ios-heart"></i></a>
+											</li>
+											{% if product.stock <= 0 %}
+											<li>
+												<a href="#"><i class="tf-ion-android-cart"></i></a>
+											</li>
+											{% else %}
+											<li>
+												<a href="{% url 'addcart' product.id %}"><i class="tf-ion-android-cart"></i></a>
+											</li>
+											{% endif %}
+										</ul>
+									</div>
+								</div>
+								<div class="product-content">
+									<h4><a href="{{product.get_url}}">{{product.product_name}}</a></h4>
+									{% if product.stock <= 0 %}
+									<p class="price">Out of Stock</p>
+									{% else %}
+									<p class="price">${{product.price|intcomma}}</p>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					<!-- Modal -->
+					{% for product in products %}
+					<div class="modal product-modal fade" id="product-modal">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<i class="tf-ion-close"></i>
+						</button>
+						<div class="modal-dialog " role="document">
+							<div class="modal-content">
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-md-8 col-sm-6 col-xs-12">
+											<div class="modal-image">
+												<img class="img-responsive" src="{{product.images.url}}" alt="product-img" />
+											</div>
+										</div>
+										<div class="col-md-4 col-sm-6 col-xs-12">
+											<div class="product-short-details">
+												<h2 class="product-title">{{product.product_name}}</h2>
+												<p class="product-price">${{product.price}}</p>
+												<p class="product-short-description">
+													{{product.description}}
+												</p>
+												{% if product.stock <= 0 %}
+												<a class="btn btn-main">Out of Stock</a>
+												{% else %}
+												<a href="{% url 'addcart' product.id %}" class="btn btn-main">Add To Cart</a>
+												{% endif %}
+												<a href="{{product.get_url}}" class="btn btn-transparent">View Product Details</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div><!-- /.modal -->
+					{% endfor %}
+						</div>				
 					</div>
 				</div>
-					
 			</div>
-			</div>
-			<div class="col-md-9">
-				<div class="row">
-                {% for product in products %}		
-                <div class="col-md-4">
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <!---<span class="bage">Sale</span>--->
-                            <a href="{{product.get_url}}"><img class="img-responsive" src="{{product.images.url}}" alt="product-img" /></a>
-                            <div class="preview-meta">
-                                <ul>
-                                    <li>
-                                        <span  data-toggle="modal" data-target="#product-modal">
-                                            <i class="tf-ion-ios-search-strong"></i>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <a href="#" ><i class="tf-ion-ios-heart"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href=""><i class="tf-ion-android-cart"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <h4><a href="{{product.get_url}}">{{product.product_name}}</a></h4>
-                            <p class="price">${{product.price}}</p>
-                        </div>
-                    </div>
-				</div>
-				{% endfor %}
-            </div>
-            
-		<!-- Modal -->
-		{% for product in products %}
-		<div class="modal product-modal fade" id="product-modal">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<i class="tf-ion-close"></i>
-			</button>
-		  	<div class="modal-dialog " role="document">
-		    	<div class="modal-content">
-			      	<div class="modal-body">
-			        	<div class="row">
-			        		<div class="col-md-8 col-sm-6 col-xs-12">
-			        			<div class="modal-image">
-				        			<img class="img-responsive" src="{{product.images.url}}" alt="product-img" />
-			        			</div>
-			        		</div>
-			        		<div class="col-md-4 col-sm-6 col-xs-12">
-			        			<div class="product-short-details">
-			        				<h2 class="product-title">{{product.product_name}}</h2>
-			        				<p class="product-price">${{product.price}}</p>
-			        				<p class="product-short-description">
-			        					{{product.description}}
-									</p>
-									{% if product.stock <= 0 %}
-									<a class="btn btn-main">Out of Stock</a>
-									{% else %}
-									<a href="cart.html" class="btn btn-main">Add To Cart</a>
-									{% endif %}
-			        				<a href="{{product.get_url}}" class="btn btn-transparent">View Product Details</a>
-			        			</div>
-			        		</div>
-			        	</div>
-			        </div>
-		    	</div>
-			</div>
-		</div><!-- /.modal -->
-		{% endfor %}
-				</div>				
-			</div>
-		
-		</div>
+		</section>		
 	</div>
 </section>
 
+{% endif %}
 
 {% endblock %}

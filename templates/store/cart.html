@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load humanize %} 
+
+{% block content %}
+
+{% if not cart_items %}
+
+<section class="empty-cart page-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div class="block text-center">
+              <i class="tf-ion-ios-cart-outline"></i>
+                <h2 class="text-center">Your cart is currently empty.</h2>
+                <a href="{% url 'store' %}" class="btn btn-main mt-20">Return to shop</a>
+        </div>
+      </div>
+    </div>
+</section>
+
+{% else %}
+<div class="page-wrapper">
+    <div class="cart shopping">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <div class="block">
+              <div class="product-list">
+                <!--<form method="post">-->
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="">Item Name</th>
+                        <th class="">Item Price</th>
+                        <th class="">Sub Total</th>
+                        <th class="">Qty</th>
+                        <th class="">Actions</th>
+                      </tr>
+                    </thead>              
+                    {% for cart_item in cart_items %}
+                    <tbody>
+                      <tr class="">
+                        <td class="">
+                          <div class="product-info">
+                            <img width="80" src="{{cart_item.product.images.url}}" alt="" />
+                            <a href="{{cart_item.product.get_url}}">{{cart_item.product.product_name }}</a>
+                          </div>
+                        </td>
+                        <td class="">${{cart_item.product.price|intcomma}}</td>
+                        <td class="">${{cart_item.sub_total|intcomma}}</td>
+                        <td class="col-md-1">
+                            <div class="quantity">
+                                <a href="{% url 'remove_cart' cart_item.product.id %}" class="btn btn-main btn-small"><i class="tf-ion-ios-arrow-left"></i></a>
+                                <input class="form-control text-center border-0 shadow-0 p-0" type="text" value="{{cart_item.quantity}}">
+                                <a href="{% url 'addcart' cart_item.product.id %}" class="btn btn-main btn-small"><i class="tf-ion-ios-arrow-right"></i></a>
+                            </div>
+                        </td>
+                        <td class="">
+                          <a class="product-remove" href="{% url 'remove_cart_item' cart_item.product.id %}">Remove</a>
+                        </td>
+                      </tr>
+                    </tbody>
+                    {% endfor %}
+                  </table>
+                  <a href="checkout.html" class="btn btn-main pull-right">Checkout</a>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}
+    
