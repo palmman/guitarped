@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load humanize %} 
+
+{% block content %}
+
+<!-- Page Wrapper -->
+<section class="page-wrapper success-msg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div class="block text-center">
+              <i class="tf-ion-android-checkmark-circle"></i>
+            <h2 class="text-center">Thank you! For your payment</h2>
+            <p>Order Number : {{order_number}}.</p>
+            <p>Transaction ID : {{transID}}.</p>
+            <div class="media product-card">
+                <div class="media-body">
+                    <span class="price">Total : ${{subtotal|intcomma}}</span>
+                </div>
+            </div>
+            <a href="{% url 'store' %}" class="btn btn-main mt-20">Continue Shopping</a>
+          </div>
+        </div>
+      </div>
+    </div>
+</section><!-- /.page-warpper -->
+
+{% endblock %}
