@@ -93,7 +93,7 @@ small {
 
 .navbar-default {
     font-family: "Century Gothic", Arial, sans-serif;
-    background: #000 url(img/bg-menu.png) repeat-x left top; /*#377fa0;*/
+    background: #000 repeat-x left top; /*#377fa0;*/
     color: #fff;
     text-transform: uppercase;
     border: none;
@@ -130,7 +130,7 @@ small {
 .navbar .nav > .active > a:focus,
 .navbar .nav li.dropdown.active > .dropdown-toggle,
 .navbar .nav li.dropdown.open.active > .dropdown-toggle {
-    background: url(img/bg-menu-selected.png) no-repeat center bottom; /*#a5360f;*/
+    background: no-repeat center bottom; /*#a5360f;*/
     background: #BC451B;
     color: #fff;
     /*height: 65px;*/
@@ -348,7 +348,7 @@ code {
     }
 
     .navbar-collapse {
-        background: #000 url(img/bg-menu.png) repeat-x left top; /*#377fa0;*/
+        background: #000 repeat-x left top; /*#377fa0;*/
         color: #fff;
     }
 

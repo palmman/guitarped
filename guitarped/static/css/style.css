@@ -2115,7 +2115,6 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .bg-2 {
-  background-image: url("../images/page-header-1.jpg");
   background-size: cover;
 }
 
@@ -2136,7 +2135,6 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .bg-brand-identity {
-  background-image: url("../images/backgrounds/brand-identity-bg.jpg");
   background-repeat: no-repeat;
 }
 
