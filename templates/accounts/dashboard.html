@@ -56,9 +56,9 @@
 										<th>Total Price</th>
 										<th></th>
 									</tr>
-								</thead>
+								</thead> 
 								<tbody>
-									{% for i in order_all %}
+									{% for i in orders %}
 									<tr>
 										<td><a href="{% url 'order_detail' i.order_number %}">#{{i.order_number}}</a></td>
 										<td>{{i.created_at}}</td>

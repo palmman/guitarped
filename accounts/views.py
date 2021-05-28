@@ -123,6 +123,7 @@ def activate(request, uidb64, token):
 @login_required(login_url = 'login')
 def dashboard(request):
     order_all = Order.objects.all().filter(is_ordered=True).order_by('-created_at')
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
     userprofile = UserProfile.objects.get(user_id=request.user.id)
     order_count = order_all.count()
     context = {
