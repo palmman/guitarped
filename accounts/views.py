@@ -130,6 +130,7 @@ def dashboard(request):
         'order_count' : order_count,
         'order_all' : order_all,
         'userprofile' : userprofile,
+        'orders': orders,
     }
     return render(request, 'accounts/dashboard.html', context)
 
