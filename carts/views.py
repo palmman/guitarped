@@ -64,7 +64,7 @@ def add_cart(request, product_id):
         return redirect('cart')
 
 
-def cart(request, total=0, quantity=0, cart_item=None):
+def cart(request, total=0, quantity=0, cart_items=None):
     try:
         if request.user.is_authenticated:
             cart_items = CartItem.objects.filter(user=request.user, is_active=True)
@@ -72,15 +72,15 @@ def cart(request, total=0, quantity=0, cart_item=None):
             cart = Cart.objects.get(cart_id=_cart_id(request))
             cart_items = CartItem.objects.filter(cart=cart, is_active=True)
         for cart_item in cart_items:
-            total += (cart_item.product.price)*(cart_item.quantity)
+            total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
     except ObjectDoesNotExist:
-        pass
+        pass #just ignore
 
     context = {
-        'total' : total,
-        'quantity' : quantity,
-        'cart_items' : cart_items,
+        'total': total,
+        'quantity': quantity,
+        'cart_items': cart_items,
     }
     return render(request, 'store/cart.html', context)
 

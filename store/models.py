@@ -1,10 +1,13 @@
 from django.db import models
 from category.models import Category
 from django.urls import reverse
+from accounts.models import Account
 
 # Create your models here.
 
 class Product(models.Model):
+
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
     product_name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField(max_length=500, blank=True) 

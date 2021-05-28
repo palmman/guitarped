@@ -34,7 +34,7 @@ def store(request, category_slug = None):
 def product_detail(request, category_slug, product_slug):
 
     products = Product.objects.all().filter(is_available=True).order_by('-created_date')
-
+    
     try:
         single_product = Product.objects.all().get(category__slug = category_slug, slug = product_slug, )
     except Exception as e:

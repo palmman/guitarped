@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load humanize %} 
+
+{% block content %}
+
+
+<div class="page-wrapper">
+    <div class="cart shopping">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <div class="block">
+              <div class="product-list">
+                <!--<form method="post">-->
+                  <table class="table">
+                    <div class="block billing-details">
+                        <h4 class="widget-title">Order No.: #{{order.order_number}} </h4>
+                    </div>
+                    <thead>
+                      <tr>
+                        <th class="">Item Name</th>
+                        <th class="">Item Price</th>
+                        <th class="">Qty</th>
+                        <th class="">Total</th>
+                      </tr>
+                    </thead>              
+                    {% for i in order_detail %}
+                    <tbody>
+                      <tr class="">
+                        <td class="">
+                          <div class="product-info">
+                            <img width="80" src="{{i.product.images.url}}" alt="" />
+                            <a href="{{cart_item.product.get_url}}">{{i.product.product_name }}</a>
+                          </div>
+                        </td>
+                        <td class="">${{i.product.price|intcomma}}</td>
+                        <td class="">{{i.quantity|intcomma}}</td>
+                        <td class="">${{subtotal |intcomma}}</td>
+                      </tr>
+                    </tbody>
+                    {% endfor %}
+                    <thead>
+                        <tr>
+                          <th class=""></th>
+                          <th class=""></th>
+                          <th class="">Total</th>
+                          <th class="">${{subtotal |intcomma}}</th>
+                        </tr>
+                      </thead> 
+                  </table>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+    
